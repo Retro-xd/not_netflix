@@ -2,11 +2,16 @@ import { searchMovies, type Movie } from "@/lib/movies"
 import { Suspense } from "react"
 import Image from "next/image"
 import { Star } from "lucide-react"
+import { Metadata } from 'next'
 
-interface SearchPageProps {
-  searchParams: {
-    q?: string;  // Make it optional with ?
-  }
+export const metadata: Metadata = {
+  title: 'Search - Not Netflix',
+  description: 'Search for movies and TV shows',
+}
+
+type SearchPageProps = {
+  params: { slug: string }
+  searchParams: { [key: string]: string | string[] | undefined }
 }
 
 function MovieCard({ movie }: { movie: Movie }) {
@@ -47,7 +52,7 @@ function MovieCard({ movie }: { movie: Movie }) {
 }
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
-  const query = searchParams.q || '';  // Provide default empty string
+  const query = (searchParams.q as string) || '';
   const movies = query ? await searchMovies(query) : []
   // Filter out movies with 0.0 rating
   const filteredMovies = movies.filter(movie => movie.vote_average > 0)
