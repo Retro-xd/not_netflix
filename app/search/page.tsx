@@ -4,7 +4,9 @@ import Image from "next/image"
 import { Star } from "lucide-react"
 
 interface SearchPageProps {
-  searchParams: { q: string }
+  searchParams: {
+    q?: string;  // Make it optional with ?
+  }
 }
 
 function MovieCard({ movie }: { movie: Movie }) {
@@ -45,7 +47,7 @@ function MovieCard({ movie }: { movie: Movie }) {
 }
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
-  const query = searchParams.q ?? ''
+  const query = searchParams.q || '';  // Provide default empty string
   const movies = query ? await searchMovies(query) : []
   // Filter out movies with 0.0 rating
   const filteredMovies = movies.filter(movie => movie.vote_average > 0)
