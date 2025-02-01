@@ -9,8 +9,9 @@ export function createClient() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        getAll() {
-          return cookieStore.getAll();
+        async getAll() {
+          const cookiesList = await cookieStore.getAll();
+          return cookiesList;
         },
         setAll(cookiesToSet) {
           try {

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface Movie {
     backdrop_path: string;
@@ -51,10 +52,13 @@ const Hero = () => {
             {movies.length > 0 && (
                 <>
                     <div className="w-full h-full">
-                        <img 
+                        <Image 
                             src={`${IMAGE_BASE_URL}${movies[currentMovieIndex].backdrop_path}`} 
                             alt={movies[currentMovieIndex].title}
+                            width={500}
+                            height={300}
                             className="w-full h-full object-cover"
+                            priority={true}
                         />
                     </div>
 
@@ -102,9 +106,11 @@ const Hero = () => {
                                         onClick={() => handleThumbnailClick(startIndex + index)}
                                     >
                                         <div className="w-full h-full">
-                                            <img 
+                                            <Image 
                                                 src={`${IMAGE_BASE_URL}${movie.poster_path}`}
                                                 alt={movie.title}
+                                                width={100}
+                                                height={80}
                                                 className={`w-full h-full object-cover rounded-md ${
                                                     startIndex + index === currentMovieIndex ? 'ring-2 ring-accentColor' : ''
                                                 }`}
