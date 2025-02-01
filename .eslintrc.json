@@ -1,13 +1,9 @@
 {
   "extends": [
-    "next/core-web-api",
-    "plugin:@typescript-eslint/recommended"
+    "next",
+    "next/core-web-api"
   ],
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
   "rules": {
-    "@typescript-eslint/no-unused-vars": "warn",
-    "@typescript-eslint/no-explicit-any": "warn",
     "react/no-unescaped-entities": "off",
     "@next/next/no-img-element": "warn"
   }
