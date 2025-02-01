@@ -9,9 +9,10 @@ export const metadata: Metadata = {
   description: 'Search for movies and TV shows',
 }
 
-type SearchPageProps = {
-  params: {}  // No dynamic route parameters for the search page.
-  searchParams: { [key: string]: string | string[] | undefined }
+interface SearchPageProps {
+  // Next.js expects `params` to be a thenable.
+  params: Promise<{}>;
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
 function MovieCard({ movie }: { movie: Movie }) {
@@ -52,6 +53,8 @@ function MovieCard({ movie }: { movie: Movie }) {
 }
 
 export default async function SearchPage({ params, searchParams }: SearchPageProps) {
+  // Even if you don't need params, we satisfy the type constraint by awaiting it.
+  await params;
   const query = (searchParams.q as string) || '';
   const movies = query ? await searchMovies(query) : []
   // Filter out movies with 0.0 rating
