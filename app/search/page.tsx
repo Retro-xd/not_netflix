@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 }
 
 type SearchPageProps = {
-  params: { slug: string }
+  params: {}  // No dynamic route parameters for the search page.
   searchParams: { [key: string]: string | string[] | undefined }
 }
 
@@ -51,7 +51,7 @@ function MovieCard({ movie }: { movie: Movie }) {
   )
 }
 
-export default async function SearchPage({ searchParams }: SearchPageProps) {
+export default async function SearchPage({ params, searchParams }: SearchPageProps) {
   const query = (searchParams.q as string) || '';
   const movies = query ? await searchMovies(query) : []
   // Filter out movies with 0.0 rating
