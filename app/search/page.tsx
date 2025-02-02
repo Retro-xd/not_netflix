@@ -10,15 +10,14 @@ export const metadata: Metadata = {
 }
 
 interface SearchPageProps {
-  // Next.js expects `params` to be a thenable.
-  params: Promise<{}>;
-  searchParams: { [key: string]: string | string[] | undefined };
-}
+    params: { slug: string };
+    searchParams: { [key: string]: string | string[] | undefined };
+  }
 
 function MovieCard({ movie }: { movie: Movie }) {
   const imageUrl = movie.poster_path
     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-    : '/no-poster.png' // You'll need to add a fallback image
+    : '/no-poster.png'
 
   return (
     <div className="bg-homeColorShade rounded-[60px] overflow-hidden hover:cursor-pointer hover:scale-105 transition-transform duration-300">
@@ -53,33 +52,31 @@ function MovieCard({ movie }: { movie: Movie }) {
 }
 
 export default async function SearchPage({ params, searchParams }: SearchPageProps) {
-  // Even if you don't need params, we satisfy the type constraint by awaiting it.
-  await params;
-  const query = (searchParams.q as string) || '';
-  const movies = query ? await searchMovies(query) : []
-  // Filter out movies with 0.0 rating
-  const filteredMovies = movies.filter(movie => movie.vote_average > 0)
-
-  return (
-    <div className="container mx-auto py-8 px-4 bg-homeColor">
-      {!query ? (
-        <p className="text-white">Please enter a search term</p>
-      ) : (
-        <>
-          <h1 className="text-2xl font-bold mb-6 text-white">Search Results for: {query}</h1>
-          <Suspense fallback={<div>Loading...</div>}>
-            {filteredMovies.length === 0 ? (
-              <p className="text-white">No movies found for &quot;{query}&quot;</p>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredMovies.map((movie) => (
-                  <MovieCard key={movie.id} movie={movie} />
-                ))}
-              </div>
-            )}
-          </Suspense>
-        </>
-      )}
-    </div>
-  )
-}
+    const query = (searchParams.q as string) || '';
+    const movies = query ? await searchMovies(query) : [];
+    const filteredMovies = movies.filter((movie) => movie.vote_average > 0);
+  
+    return (
+      <div className="container mx-auto py-8 px-4 bg-homeColor">
+        {!query ? (
+          <p className="text-white">Please enter a search term</p>
+        ) : (
+          <>
+            <h1 className="text-2xl font-bold mb-6 text-white">Search Results for: {query}</h1>
+            <Suspense fallback={<div>Loading...</div>}>
+              {filteredMovies.length === 0 ? (
+                <p className="text-white">No movies found for &quot;{query}&quot;</p>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {filteredMovies.map((movie) => (
+                    <MovieCard key={movie.id} movie={movie} />
+                  ))}
+                </div>
+              )}
+            </Suspense>
+          </>
+        )}
+      </div>
+    );
+  }
+  
