@@ -52,7 +52,9 @@ function MovieCard({ movie }: { movie: Movie }) {
 }
 
 export default async function SearchPage({ params, searchParams }: SearchPageProps) {
-    const query = (searchParams.q as string) || '';
+    const resolvedSearchParams = await searchParams; // Ensure searchParams is awaited
+  
+    const query = (resolvedSearchParams.q as string) || '';
     const movies = query ? await searchMovies(query) : [];
     const filteredMovies = movies.filter((movie) => movie.vote_average > 0);
   
@@ -79,4 +81,5 @@ export default async function SearchPage({ params, searchParams }: SearchPagePro
       </div>
     );
   }
+  
   
