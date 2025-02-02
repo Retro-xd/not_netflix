@@ -1,23 +1,23 @@
-import { searchMovies, type Movie } from "@/lib/movies"
-import { Suspense } from "react"
-import Image from "next/image"
-import { Star } from "lucide-react"
-import { Metadata } from 'next'
+import { searchMovies, type Movie } from "@/lib/movies";
+import { Suspense } from "react";
+import Image from "next/image";
+import { Star } from "lucide-react";
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Search - Not Netflix',
   description: 'Search for movies and TV shows',
-}
+};
 
 interface SearchPageProps {
-    params: { slug: string };
-    searchParams: { [key: string]: string | string[] | undefined };
-  }
+  params: { slug: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}
 
 function MovieCard({ movie }: { movie: Movie }) {
   const imageUrl = movie.poster_path
     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-    : '/no-poster.png'
+    : '/no-poster.png';
 
   return (
     <div className="bg-homeColorShade rounded-[60px] overflow-hidden hover:cursor-pointer hover:scale-105 transition-transform duration-300">
@@ -32,54 +32,49 @@ function MovieCard({ movie }: { movie: Movie }) {
       </div>
       <div className="p-8">
         <div className="flex items-center justify-between mb-2">
-            <h2 className="text-xl font-semibold text-white">{movie.title}</h2>
-            <div className="flex items-center gap-6">
-                <p className="text-gray-400 text-sm">
-                {new Date(movie.release_date).getFullYear()}
-                </p>
-                <div className="flex items-center text-white gap-1">
-                    <Star color="yellow" fill="yellow" size={16} />
-                    {movie.vote_average.toFixed(1)}
-                </div>
+          <h2 className="text-xl font-semibold text-white">{movie.title}</h2>
+          <div className="flex items-center gap-6">
+            <p className="text-gray-400 text-sm">
+              {new Date(movie.release_date).getFullYear()}
+            </p>
+            <div className="flex items-center text-white gap-1">
+              <Star color="yellow" fill="yellow" size={16} />
+              {movie.vote_average.toFixed(1)}
             </div>
-            
+          </div>
         </div>
-        
         <p className="text-gray-300 text-sm line-clamp-3">{movie.overview}</p>
       </div>
     </div>
-  )
+  );
 }
 
 export default async function SearchPage({ params, searchParams }: SearchPageProps) {
-    const resolvedSearchParams = await searchParams; // Ensure searchParams is awaited
-  
-    const query = (resolvedSearchParams.q as string) || '';
-    const movies = query ? await searchMovies(query) : [];
-    const filteredMovies = movies.filter((movie) => movie.vote_average > 0);
-  
-    return (
-      <div className="container mx-auto py-8 px-4 bg-homeColor">
-        {!query ? (
-          <p className="text-white">Please enter a search term</p>
-        ) : (
-          <>
-            <h1 className="text-2xl font-bold mb-6 text-white">Search Results for: {query}</h1>
-            <Suspense fallback={<div>Loading...</div>}>
-              {filteredMovies.length === 0 ? (
-                <p className="text-white">No movies found for &quot;{query}&quot;</p>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredMovies.map((movie) => (
-                    <MovieCard key={movie.id} movie={movie} />
-                  ))}
-                </div>
-              )}
-            </Suspense>
-          </>
-        )}
-      </div>
-    );
-  }
-  
-  
+  // No need to await searchParams, it's already a resolved object
+  const query = (searchParams.q as string) || '';
+  const movies = query ? await searchMovies(query) : [];
+  const filteredMovies = movies.filter((movie) => movie.vote_average > 0);
+
+  return (
+    <div className="container mx-auto py-8 px-4 bg-homeColor">
+      {!query ? (
+        <p className="text-white">Please enter a search term</p>
+      ) : (
+        <>
+          <h1 className="text-2xl font-bold mb-6 text-white">Search Results for: {query}</h1>
+          <Suspense fallback={<div>Loading...</div>}>
+            {filteredMovies.length === 0 ? (
+              <p className="text-white">No movies found for &quot;{query}&quot;</p>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredMovies.map((movie) => (
+                  <MovieCard key={movie.id} movie={movie} />
+                ))}
+              </div>
+            )}
+          </Suspense>
+        </>
+      )}
+    </div>
+  );
+}
