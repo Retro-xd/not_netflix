@@ -19,7 +19,7 @@ const Sidebar = () => {
 
                 <div className="flex flex-col">
                     <h1 className="text-[14px] font-semibold text-gray-600 px-[12px] mb-2">News Feed</h1>
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4 ">
                         <Link href="/" className={`sidebar-link ${isActive ? '' : 'bg-accentColor'} rounded-full`}>
                             <Compass className="text-white" />
                             <p className="sidebar-label">Browse</p>

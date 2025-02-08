@@ -373,7 +373,7 @@
   }
 
   .sidebar-logo {
-    @apply 2xl:text-26 font-ibm-plex-serif text-[26px] font-bold text-white max-xl:hidden;
+    @apply 2xl:text-26 font-ibm-plex-serif text-[26px] font-bold text-white max-lg:hidden;
   }
 
   .sidebar-link {
@@ -381,6 +381,6 @@
   }
 
   .sidebar-label {
-    @apply text-16 font-semibold text-white max-xl:hidden;
+    @apply text-16 font-semibold text-white max-lg:hidden;
   }
 }
