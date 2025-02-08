@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import LogoutButton from "./LogoutButton";
 
 export default async function Dashboard() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
     redirect("/login");
