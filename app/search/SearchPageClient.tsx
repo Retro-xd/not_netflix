@@ -22,7 +22,7 @@ export default function SearchPageClient() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Debounced search effect
+ 
   useEffect(() => {
     if (!query.trim()) {
       setMovies([]);
