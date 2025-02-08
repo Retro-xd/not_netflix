@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { createClient } from '@/utils/supabase/server'
 
 const Navbar = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase.auth.getUser();
 
   const avatarUrl = data?.user?.user_metadata.picture || 'https://i.pravatar.cc/150'
