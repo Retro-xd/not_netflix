@@ -1,4 +1,3 @@
-// pages/api/search.ts
 import { NextApiRequest, NextApiResponse } from "next";
 
 const BASE_URL = "https://api.themoviedb.org/3";

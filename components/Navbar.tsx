@@ -8,10 +8,12 @@ const Navbar = async () => {
   const { data, error } = await supabase.auth.getUser();
 
   const avatarUrl = data?.user?.user_metadata.picture || 'https://i.pravatar.cc/150'
+  const userName = data?.user?.user_metadata.name?.split(' ')[0];
 
   return (
-    <nav className="flex items-center justify-between w-full gap-6 p-[36px]">
+    <nav className="flex items-center w-full gap-6 p-[36px]">
         <SearchInput />
+        <h2 className='flex text-xl font-semibold text-white flex-1 justify-end '>Hi, {userName}</h2>
         <div className="profileNav flex items-center gap-8">
             <Image 
                 src={avatarUrl}

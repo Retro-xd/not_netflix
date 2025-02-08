@@ -17,8 +17,8 @@ const SearchInput = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full">
-      <button type="submit" className="flex items-center gap-2 border-[1px] rounded-[30px] p-1 outline-none w-full">
+    <form onSubmit={handleSubmit} className="w-[600px]">
+      <button type="submit" className="flex items-center gap-2 border-[1px] rounded-[30px] p-1 outline-none w-[600px]">
         <Search className="text-white ml-2" />
         <Input 
           value={searchQuery}
